@@ -165,12 +165,12 @@ textarea{caret-color:var(--brand)}
 .chip::after{content:"";position:absolute;inset:-6px -4px}
 .chip i{font-size:13px}
 .chip.s-found{background:#f2f8f3;color:#3d7a4b}
-.chip.s-likely{background:#fcf5e1;color:#8a5d0c}
-.chip.s-nf{background:#fcedeb;color:#963430}
-/* hover and open: the same hue, one step deeper; no outline */
+.chip.s-likely{background:#fdf3cd;color:#644400}
+.chip.s-nf{background:#fce6e3;color:#8a1c15}
+/* problems carry a deeper tint than Found, so they differ in lightness and not only in hue; the shape stays the same */
 .chip.s-found:hover,.chip.s-found.active{background:#e3efe6;color:var(--found)}
-.chip.s-likely:hover,.chip.s-likely.active{background:#f7e9bf}
-.chip.s-nf:hover,.chip.s-nf.active{background:#f8dcd8}
+.chip.s-likely:hover,.chip.s-likely.active{background:#fbe8ad}
+.chip.s-nf:hover,.chip.s-nf.active{background:#f9d6d2}
 
 
 /* ---------- Sources ---------- */
@@ -272,7 +272,7 @@ html.kbd .status:focus-visible{outline:2px solid var(--brand);outline-offset:4px
 .status .w{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:15px}
 .status .w i{font-size:17px}
 .status.s-found .w{color:var(--found)} .status.s-likely .w{color:var(--likely)} .status.s-nf .w{color:var(--nf)}
-.stmt{margin:0;font-size:17px;line-height:1.6;color:var(--ink)}
+.stmt{margin:0;font-size:15px;line-height:1.6;color:var(--ink)}
 .p-body .p-h{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:500}
 .why{margin:12px 0 0;font-size:14px;line-height:1.6;color:var(--ink-2)}
 .why b{font-weight:600;color:var(--ink);margin-right:4px}
@@ -339,7 +339,7 @@ mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-
 .d-st{padding-left:10px;font-size:13px;font-weight:500;color:var(--muted);cursor:default}
 .d-head2.s-found .d-st{color:var(--found)} .d-head2.s-likely .d-st{color:var(--likely)} .d-head2.s-nf .d-st{color:var(--nf)}
 .d-sp{flex:1}
-.d-stm{margin:2px 12px 0 44px;font-size:17px;line-height:1.6;color:var(--ink);hyphens:none;-webkit-hyphens:none;overflow-wrap:break-word}
+.d-stm{margin:2px 12px 0 44px;font-size:15px;line-height:1.6;color:var(--ink);hyphens:none;-webkit-hyphens:none;overflow-wrap:break-word}
 .d-stm:focus{outline:none}
 html.kbd .d-stm:focus-visible{outline:2px solid var(--brand);outline-offset:4px;border-radius:4px}
 .d-why-t{display:inline-flex;align-items:center;gap:4px;margin:8px 0 0 44px;height:26px;padding:0 6px;margin-left:38px;border-radius:7px;font-size:13px;font-weight:500;color:var(--ink-2)}
@@ -411,7 +411,7 @@ html.kbd #dscroll:focus-visible{outline:2px solid var(--brand);outline-offset:-2
 .c-note.on{display:block}
 .ghost.empty{color:var(--brand-ink)}
 .ghost.empty i{color:var(--brand)}
-.d-empty-a{display:flex;gap:6px;justify-content:center}
+.d-empty-a{display:flex;gap:10px;align-items:center;justify-content:center}
 .d-empty{margin:80px auto;max-width:340px;text-align:center;color:var(--ink-2)}
 .d-empty h3{font-size:17px;font-weight:600;line-height:1.25;margin:0 0 6px;color:var(--ink)}
 .d-empty p{margin:0 0 16px;font-size:15px;line-height:1.6;color:var(--muted)}
