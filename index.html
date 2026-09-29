@@ -171,10 +171,6 @@ textarea{caret-color:var(--brand)}
 .chip.s-likely:hover,.chip.s-likely.active{background:#f7e9bf}
 .chip.s-nf:hover,.chip.s-nf.active{background:#f8dcd8}
 
-.gbar{position:absolute;left:-22px;width:3px;border-radius:2px;padding:0}
-.gbar::after{content:"";position:absolute;inset:0 -6px}
-.gbar.s-likely{background:repeating-linear-gradient(to bottom,var(--likely-bar) 0 6px,transparent 6px 9px)}
-.gbar.s-nf{background:var(--nf-bar)}
 
 /* ---------- Sources ---------- */
 .sources{margin:32px 0 0;padding-top:12px;border-top:1px solid var(--line)}
@@ -486,7 +482,7 @@ html.kbd #dscroll:focus-visible{outline:2px solid var(--brand);outline-offset:-2
 <div class="demo" id="demo">
   <div class="demo-list">
     <small>Prototype states</small>
-    <button data-s="1"><span>1</span>Composer and effort</button>
+    <button data-s="1"><span>1</span>Empty</button>
     <button data-s="2"><span>2a</span>Short run</button>
     <button data-s="2b"><span>2b</span>Long run</button>
     <button data-s="3"><span>3</span>Answer</button>
@@ -863,7 +859,7 @@ function metaRow() {
   } else {
     const found = `<button class="vfound ${toCheck.length ? '' : 'ok'}" data-act="all" data-tip="Verify answers checked each fact against your 3 documents. Grey numbers were found there.">${counts.found} of ${FACTS.length} facts found</button>`;
     const note = '';
-    const check = toCheck.length ? `<button class="vcheck" data-act="check" aria-label="${toCheck.length} facts to check: ${nConcl(counts.likely)}, ${counts.nf} not found" data-tip="${nConcl(counts.likely)}, ${counts.nf} not found. Marked in the margin.">${toCheck.length} to check<i class="ph ph-arrow-right"></i></button>` : '';
+    const check = toCheck.length ? `<button class="vcheck" data-act="check" aria-label="${toCheck.length} facts to check: ${nConcl(counts.likely)}, ${counts.nf} not found" data-tip="${nConcl(counts.likely)}, ${counts.nf} not found.">${toCheck.length} to check<i class="ph ph-arrow-right"></i></button>` : '';
     v = found + note + check;
   }
   const warn = S.scenario === 'mostly' ? `<p class="vwarn">Most of this answer is not in your documents. Check it before you use it.</p>` : '';
@@ -883,8 +879,6 @@ function renderThread() {
   else if (S.view === 'failed') t.innerHTML = userQ() + failHTML();
   else {
     t.innerHTML = userQ() + `<div id="meta">${metaRow()}</div><article class="answer"><div class="a-body" id="abody" lang="de" aria-label="Answer. Fact numbers: use the left and right arrow keys to move between them, Enter to open one.">${ANSWER()}</div>${sourcesHTML()}</article>`;
-    requestAnimationFrame(drawGutter);
-    ro.observe($('#abody'));
     const first = $('#abody .chip'); if (first) first.tabIndex = 0;
     markActive(false);
   }
@@ -908,22 +902,6 @@ function updateActivity() {
   if (list.dataset.step !== String(r.step)) { list.dataset.step = r.step; list.innerHTML = stepsHTML(r.step, true); }
 }
 
-/* margin marks, drawn per line box so the mark matches the sentence */
-function drawGutter() {
-  const body = $('#abody'); if (!body) return;
-  $$('.gbar', body).forEach(n => n.remove());
-  const br = body.getBoundingClientRect();
-  const ids = [...new Set($$('.fs.s-likely, .fs.s-nf', body).map(el => el.dataset.f))];
-  ids.forEach(id => {
-    const rects = $$(`.fs[data-f="${id}"]`, body).flatMap(el => [...el.getClientRects()]); if (!rects.length) return;
-    const top = Math.min(...rects.map(r => r.top)) - br.top, bottom = Math.max(...rects.map(r => r.bottom)) - br.top;
-    const b = document.createElement('button');
-    b.className = `gbar s-${byId[id].status}`; b.dataset.f = id; b.tabIndex = -1; b.setAttribute('aria-hidden', 'true');
-    b.style.top = (top + 4) + 'px'; b.style.height = Math.max(10, bottom - top - 8) + 'px';
-    body.appendChild(b);
-  });
-}
-const ro = new ResizeObserver(() => drawGutter());
 
 /* ================= Run ================= */
 function startRun(kind) {
@@ -1276,7 +1254,7 @@ function tipFor(el) {
   return `<b class="t-${f.status}">${st.word}</b>${f.status === 'found' ? '' : st.line}${where}`;
 }
 function onTipTarget(e) {
-  const t = e.target.closest('[data-tip], [data-tip-rail], .chip, .gbar');
+  const t = e.target.closest('[data-tip], [data-tip-rail], .chip');
   $$('.fs.hover').forEach(n => n.classList.remove('hover'));
   if (!t) { tip.classList.remove('on'); return; }
   if (t.dataset.f && t.closest('#abody')) $$(`.fs[data-f="${t.dataset.f}"]`).forEach(n => n.classList.add('hover'));
@@ -1398,8 +1376,8 @@ function goState(s) {
   S.docs = 3; S.offline = !navigator.onLine; S.docError = false; renderNote('');
   switch (s) {
     case '1':
-      closePanel(true); S.view = 'composer'; S.effort = 'standard'; S.verify = true; S.pop = true; S.modelOpen = false;
-      $('#input').value = QUESTION; renderThread(); renderComposer(); autosize(); break;
+      closePanel(true); S.view = 'composer'; S.effort = 'standard'; S.verify = true; S.pop = false; S.modelOpen = false;
+      $('#input').value = ''; renderThread(); renderComposer(); autosize(); break;
     case '2': S.effort = 'standard'; startRun('short'); break;
     case '2b': startRun('long'); break;
     case '3': closePanel(true); S.effort = 'standard'; showAnswer(); $('#scroll').scrollTop = 0; break;
