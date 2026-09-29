@@ -112,13 +112,14 @@ textarea{caret-color:var(--brand)}
 .q div{max-width:78%;background:var(--sunken);border-radius:18px 18px 4px 18px;padding:11px 16px;font-size:17px;line-height:1.6}
 
 /* ---------- Meta row: activity + verification ---------- */
-.meta-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 14px;min-height:28px}
+.meta-row{display:flex;align-items:center;justify-content:space-between;gap:4px 16px;flex-wrap:wrap;margin:0 0 14px;min-height:28px}
 .act-toggle{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-size:13px;height:28px}
 .act-toggle:hover{color:var(--ink)}
 .act-toggle i{font-size:12px}
 .vline{display:flex;align-items:center;gap:14px;font-size:13px}
-.vcheck{display:inline-flex;align-items:center;gap:5px;color:var(--ink);font-weight:500;height:28px;padding:0 2px;border-radius:7px}
-.vcheck:hover{color:var(--brand-ink)}
+.vcheck{display:inline-flex;align-items:center;gap:4px;color:var(--ink-2);font-weight:500;height:28px;padding:0 8px;margin-right:-8px;border-radius:7px}
+.vcheck:hover{color:var(--ink);background:var(--sunken)}
+.vcheck:active{background:var(--sunken-2)}
 .vcheck i{font-size:14px}
 .act-list{list-style:none;margin:-4px 0 18px 3.5px;padding:0;border-left:1px solid var(--line)}
 .act-list li{position:relative;padding:4px 0 4px 14.5px;font-size:14px;color:var(--muted)}
@@ -132,9 +133,10 @@ textarea{caret-color:var(--brand)}
 .run-head{display:flex;align-items:center;gap:10px;font-size:14px;margin:0}
 .run-head .t{font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted)}
 .run-head .eta{color:var(--faint);font-size:13px}
-.pulse{width:8px;height:8px;border-radius:50%;background:var(--brand);position:relative;flex:none}
-.pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--brand);opacity:0;animation:pulse 1.6s var(--ease) infinite}
-@keyframes pulse{0%{transform:scale(.5);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+/* waiting: one fixed rhythm; the node is never rebuilt, so the pace does not depend on how fast the run goes */
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--brand);flex:none;animation:breathe 1.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.35}50%{opacity:1}}
+@media (prefers-reduced-motion: reduce){.pulse{animation:none}}
 .run-hint{margin:4px 0 0 18px;font-size:13px;color:var(--muted)}
 .run-steps summary{margin:6px 0 0 18px;list-style:none}
 .run-steps summary::-webkit-details-marker{display:none}
@@ -158,7 +160,7 @@ textarea{caret-color:var(--brand)}
 .fs.s-likely.active{background:var(--likely-soft)}
 .fs.s-nf.active{background:var(--nf-soft)}
 
-.chip{position:relative;display:inline-flex;align-items:center;gap:2px;height:18px;min-width:18px;font-variant-numeric:tabular-nums;justify-content:center;padding:0 4px;margin-left:4px;border-radius:4px;font:500 12px/1 var(--sans);vertical-align:2px;border:1px solid transparent;background:transparent;color:var(--faint);transition:border-color .15s, background-color .15s, color .15s}
+.chip{position:relative;display:inline-flex;align-items:center;gap:2px;height:18px;min-width:18px;justify-content:center;padding:0 4px;margin-left:4px;border-radius:4px;font:500 12px/1 var(--sans);font-variant-numeric:tabular-nums;vertical-align:2px;border:1px solid transparent;background:transparent;color:var(--faint);transition:border-color .15s, background-color .15s, color .15s}
 .chip::after{content:"";position:absolute;inset:-6px -4px}
 .chip i{font-size:13px}
 .chip.s-found{background:#f2f8f3;color:#3d7a4b}
@@ -197,7 +199,6 @@ textarea{caret-color:var(--brand)}
 .composer-wrap{flex:none;padding:0 24px 20px}
 .composer{position:relative;max-width:668px;margin:0 auto;border:1px solid var(--line-strong);box-shadow:0 1px 2px rgba(33,28,90,.03);background:var(--surface);border-radius:16px;padding:14px 10px 10px 24px}
 .composer .c-left{margin-left:-8px}
-.composer:focus-within{border-color:#c9c3de}
 .composer textarea{width:100%;border:0;resize:none;outline:none;font:inherit;font-size:17px;line-height:1.5;color:var(--ink);background:transparent;min-height:26px;max-height:120px;padding:0 6px 0 0}
 .composer textarea::placeholder{color:var(--faint)}
 .c-row{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
@@ -279,21 +280,35 @@ html.kbd .status:focus-visible{outline:2px solid var(--brand);outline-offset:4px
 .why{margin:12px 0 0;font-size:15px;line-height:1.55;color:var(--ink-2)}
 .why b{font-weight:600;color:var(--ink);margin-right:4px}
 /* the document's own words sit on their own surface, apart from MAIA's */
-.ev{background:#f8f8fa;border:0;border-radius:var(--r);padding:12px 14px 14px}
+.ev{border-top:1px solid var(--line);padding:14px 0 0}
 .ev .excerpt{border-left:0;padding:0}
-.ev .src{margin-bottom:10px}
-.ev .x-table td:first-child,.ev .x-table th:first-child{padding-left:6px}
-.ev-list{padding:0 14px}
+.ev .src{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n b" "m m";align-items:center;column-gap:10px;row-gap:0;margin-bottom:10px}
+.ev .src-t{display:contents}
+.ev .src-t .fn{grid-area:n}
+.ev .src-t > span{grid-area:m;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev mark{background:rgba(79,154,96,.14)}
+.ev.s-likely mark{background:rgba(212,155,18,.16)}
+.ev .x-table td:first-child,.ev .x-table th:first-child{padding-left:0}
+.ev-list{padding:0}
 .ev-list .srcb:last-child{border-bottom:0}
 .src{display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:10px;color:var(--ink-2)}
 .src-t{flex:1;min-width:0}
-.src b{display:block;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.src span{display:block;color:var(--faint)}
-.btn.sm{flex:none;height:28px;padding:0 10px;font-size:13px;color:var(--ink-2)}
+.fn{display:flex;min-width:0;font-weight:500;color:var(--ink);white-space:nowrap}
+.fn .h{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.fn .t{flex:none}
+.src-t > span{display:block;color:var(--faint)}
+/* the one in-panel action of a source: quiet text, same grey fill on hover as every neutral control */
+.act{flex:none;display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 8px;margin-right:-8px;border-radius:7px;font-size:13px;font-weight:500;color:var(--ink-2)}
+.act i{font-size:14px}
+.act:hover{color:var(--ink);background:var(--sunken)}
+.act:active{background:var(--sunken-2)}
 /* a link leaves MAIA for the file: no box, an external-link mark, underline on hover */
-.ext{flex:none;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 4px;border-radius:5px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .15s}
+.ext{flex:none;display:inline-flex;align-items:center;height:28px;padding:0 4px;border-radius:5px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .15s}
+/* one continuous line under text and mark together */
+.ext .ul{display:inline-flex;align-items:center;gap:5px;padding-bottom:1px;border-bottom:1px solid transparent;transition:border-color .15s}
 .ext i{font-size:14px}
-.ext:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.ext:hover{color:var(--ink)}
+.ext:hover .ul{border-bottom-color:currentColor}
 .ext:active{color:var(--ink);opacity:.8}
 .excerpt{border-left:2px solid var(--line-strong);padding:2px 0 2px 14px;font-size:15px;line-height:1.55;color:var(--ink-2)}
 mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
@@ -312,10 +327,10 @@ mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-
 .ev.srcs{border-top:1px solid var(--line)}
 .srcb{border-bottom:1px solid var(--line)}
 .srcb-h{display:flex;align-items:center;gap:6px;height:42px}
-.srcb-t:hover b{color:var(--brand-ink)}
+.srcb-t:hover .car{color:var(--ink)}
 .srcb-t{flex:1;min-width:0;display:flex;align-items:center;gap:8px;height:100%;text-align:left;font-size:14px}
-.srcb-h b{flex:1;min-width:0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.srcb-h span{font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted);font-weight:500}
+.srcb-t .fn{flex:0 1 auto}
+.srcb-t > span{flex:none;font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted);font-weight:500}
 .srcb-h .car{font-size:12px;color:var(--muted);transition:transform .2s var(--ease)}
 .srcb.open .car{transform:rotate(180deg)}
 .srcb-b{display:none;padding:0 0 14px}
@@ -834,10 +849,10 @@ function stepsHTML(stepIdx, live) {
 function activityLive() {
   const r = S.run, e = EFFORT[S.effort];
   const hint = r.elapsed >= 120 ? `<div class="run-hint">Each fact is checked on its own. Long answers take longer.</div>` : '';
-  return `<div id="act" aria-live="polite">
-    <div class="run-head"><span class="pulse"></span><span>${STEPS[r.step].now}</span><span class="t">${fmt(r.elapsed)}</span><span class="eta">usually ${e.time}</span></div>
+  return `<div id="act">
+    <div class="run-head"><span class="pulse" aria-hidden="true"></span><span class="rh-now" aria-live="polite">${STEPS[r.step].now}</span><span class="t">${fmt(r.elapsed)}</span><span class="eta">usually ${e.time}</span></div>
     ${hint}
-    <details class="run-steps" ${S.actOpen ? 'open' : ''}><summary class="act-toggle">Show steps<i class="ph ph-caret-down"></i></summary>${stepsHTML(r.step, true)}</details>
+    <details class="run-steps" ${S.actOpen ? 'open' : ''}><summary class="act-toggle">Show steps<i class="ph ph-caret-down"></i></summary><div class="rs-list" data-step="${r.step}">${stepsHTML(r.step, true)}</div></details>
   </div>`;
 }
 function metaRow() {
@@ -882,10 +897,15 @@ function failHTML() {
     <button class="btn secondary" data-act="retry"><i class="ph ph-arrow-clockwise"></i>Try again</button>
   </div>`;
 }
+/* patch in place: text, timer, hint and the steps list change; the dot and the open/closed steps are left alone */
 function updateActivity() {
-  const open = $('.run-steps') && $('.run-steps').open;
-  S.actOpen = !!open;
-  const a = $('#act'); if (a) a.outerHTML = activityLive();
+  const a = $('#act'), r = S.run; if (!a) return;
+  S.actOpen = !!($('.run-steps') && $('.run-steps').open);
+  const now = $('.rh-now', a), t = $('.t', a), list = $('.rs-list', a);
+  if (now.textContent !== STEPS[r.step].now) now.textContent = STEPS[r.step].now;
+  if (t.textContent !== fmt(r.elapsed)) t.textContent = fmt(r.elapsed);
+  if (r.elapsed >= 120 && !$('.run-hint', a)) $('.run-head', a).insertAdjacentHTML('afterend', `<div class="run-hint">Each fact is checked on its own. Long answers take longer.</div>`);
+  if (list.dataset.step !== String(r.step)) { list.dataset.step = r.step; list.innerHTML = stepsHTML(r.step, true); }
 }
 
 /* margin marks, drawn per line box so the mark matches the sentence */
@@ -1043,6 +1063,12 @@ function gloss(f) {
   if (f.status === 'likely') return 'not written in your documents';
   return 'check it yourself before you use it';
 }
+/* long file names shorten in the middle and keep their ending: Requirement_Specificat…Hamburg.pdf */
+function fname(n) {
+  const k = Math.max(8, Math.min(12, n.length - 8));
+  return `<b class="fn" data-tip="${n}"><span class="h">${n.slice(0, -k)}</span><span class="t">${n.slice(-k)}</span></b>`;
+}
+const ACT = i => `<button class="act" data-act="docAt" data-i="${i}">Show in document<i class="ph ph-arrow-right" aria-hidden="true"></i></button>`;
 function level1(f) {
   const st = STATUS[f.status], pos = position(), n = f.sources.length;
   let body = `
@@ -1053,13 +1079,13 @@ function level1(f) {
     </div>`;
   if (n === 1) {
     const src = f.sources[0], d = DOCS[src.doc];
-    body += `<div class="ev s-${f.status}"><div class="src"><div class="src-t"><b data-tip="${d.name}">${d.name}</b><span>p. ${src.page}, ${src.sec}</span></div><button class="btn secondary sm" data-act="docAt" data-i="0">Show in document</button></div>${excerptHTML(src)}</div>`;
+    body += `<div class="ev s-${f.status}"><div class="src"><div class="src-t">${fname(d.name)}<span>p. ${src.page}, ${src.sec}</span></div>${ACT(0)}</div>${excerptHTML(src)}</div>`;
   } else if (n > 1) {
     /* several sources: first one open, the rest one line each */
     body += `<div class="ev ev-list srcs s-${f.status}">${f.sources.map((src, i) => {
       const d = DOCS[src.doc], open = i === 0;
       return `<div class="srcb ${open ? 'open' : ''}">
-        <div class="srcb-h"><button class="srcb-t" data-act="srcToggle" aria-expanded="${!!open}"><b data-tip="${d.name}">${d.name}</b><span>p. ${src.page}</span><i class="ph ph-caret-down car"></i></button><button class="btn secondary sm" data-act="docAt" data-i="${i}">Show in document</button></div>
+        <div class="srcb-h"><button class="srcb-t" data-act="srcToggle" aria-expanded="${!!open}">${fname(d.name)}<span>p. ${src.page}</span><i class="ph ph-caret-down car"></i></button>${ACT(i)}</div>
         <div class="srcb-b">${excerptHTML(src)}</div>
       </div>`;
     }).join('')}</div>`;
@@ -1158,7 +1184,7 @@ function level2(f) {
   if (S.docError) {
     return head + `<div class="d-scroll"><div class="d-empty" role="alert"><h3>This document can't be shown here</h3>
       <p>${d.name} did not load. The excerpt in the fact details is still valid.</p>
-      <div class="d-empty-a"><button class="btn secondary" data-act="docRetry"><i class="ph ph-arrow-clockwise"></i>Try again</button><a class="ext" href="docs/${encodeURIComponent(d.name)}" target="_blank" rel="noopener">Open original<i class="ph ph-arrow-square-out" aria-hidden="true"></i></a></div></div></div>`;
+      <div class="d-empty-a"><button class="btn secondary" data-act="docRetry"><i class="ph ph-arrow-clockwise"></i>Try again</button><a class="ext" href="docs/${encodeURIComponent(d.name)}" target="_blank" rel="noopener"><span class="ul">Open original<i class="ph ph-arrow-square-out" aria-hidden="true"></i></span></a></div></div></div>`;
   }
   /* ‹ › switch documents of this fact, the header arrows switch facts */
   const sw = n > 1 ? `<span class="d-sw">
@@ -1169,7 +1195,7 @@ function level2(f) {
   return head + `<div class="d-src">
       <span class="d-file">${docIcon(src.doc)}<b data-tip="${d.name}">${d.name}</b><span class="pg">p. ${src.page}</span></span>
       ${sw}
-      <a class="ext" href="docs/${encodeURIComponent(d.name)}#page=${src.page}" target="_blank" rel="noopener">Open original<i class="ph ph-arrow-square-out" aria-hidden="true"></i></a>
+      <a class="ext" href="docs/${encodeURIComponent(d.name)}#page=${src.page}" target="_blank" rel="noopener"><span class="ul">Open original<i class="ph ph-arrow-square-out" aria-hidden="true"></i></span></a>
     </div>
     <div class="d-scroll s-${f.status}" id="dscroll" lang="de" tabindex="0" role="region" aria-label="${d.name}, page ${src.page}">
       ${docHTML(src.doc)}
