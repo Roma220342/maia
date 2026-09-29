@@ -6,7 +6,7 @@
 <title>MAIA Verify answers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@92..100,400..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <style>
 :root{
@@ -26,8 +26,9 @@
   --sb:248px; --pw:0px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;font-size:14px;line-height:1.45;letter-spacing:.005em}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+/* type system: sizes 12 chip · 13 meta · 14 controls · 15 reading (panel) · 17 reading (answer) · 20 section · 24 title. weights 400 text · 500 labels/actions/selected · 600 headings and status. line-height 1.25 headings · 1.45 UI · 1.6 reading */
+html,body{margin:0;height:100%;font-size:14px;line-height:1.45}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;transition:background-color .15s,color .15s,border-color .15s,opacity .15s}
 button:disabled{cursor:default}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:4px}
@@ -70,7 +71,7 @@ textarea{caret-color:var(--brand)}
 .hist a.on{background:var(--sunken);color:var(--ink);font-weight:500}
 .sb-scroll{flex:1;overflow-y:auto;min-height:0}
 .sb-foot{display:flex;align-items:center;gap:10px;padding:10px 8px 4px;border-top:1px solid var(--line);font-size:13px;white-space:nowrap}
-.avatar{width:28px;height:28px;flex:none;border-radius:50%;background:var(--sunken-2);display:grid;place-items:center;font-weight:600;font-size:13px;color:var(--ink-2)}
+.avatar{width:28px;height:28px;flex:none;border-radius:50%;background:var(--sunken-2);display:grid;place-items:center;font-weight:500;font-size:13px;color:var(--ink-2)}
 /* rail */
 .app.rail .sb-in,.app.p2 .sb-in{width:56px;padding:12px 8px}
 .app.rail .logo .word,.app.p2 .logo .word,
@@ -105,7 +106,7 @@ textarea{caret-color:var(--brand)}
 .pop.down.open{transform:none}
 .main.home .scroll{flex:none;overflow:visible}
 .main.home .thread{padding-bottom:20px}
-.empty h2{font-size:28px;letter-spacing:-.015em;line-height:1.2;margin:0;color:var(--heading);font-weight:600;text-align:center}
+.empty h2{font-size:24px;letter-spacing:-.01em;line-height:1.25;margin:0;color:var(--heading);font-weight:600;text-align:center}
 
 /* ---------- User bubble ---------- */
 .q{display:flex;justify-content:flex-end;margin:12px 0 20px}
@@ -146,14 +147,14 @@ textarea{caret-color:var(--brand)}
 .nw{white-space:nowrap}
 .a-body{position:relative;hyphens:auto;-webkit-hyphens:auto}
 .stmt,.excerpt,.why{hyphens:auto;-webkit-hyphens:auto}
-.a-title{font-size:24px;line-height:1.25;letter-spacing:-.01em;margin:0 0 18px;color:var(--heading);font-weight:600;font-stretch:96%}
-.a-sec{font-size:19px;color:var(--ink);font-weight:600;margin:28px 0 6px;line-height:1.3;font-stretch:96%}
+.a-title{font-size:24px;line-height:1.25;letter-spacing:-.01em;margin:0 0 18px;color:var(--heading);font-weight:600}
+.a-sec{font-size:20px;color:var(--ink);font-weight:600;margin:28px 0 6px;line-height:1.25}
 .a-body p,.a-body li{font-size:17px;line-height:1.6;color:var(--ink);margin:0 0 8px}
 .a-body p{margin:0 0 16px}
 .a-body ul{margin:0;padding:0;list-style:none}
 .a-body li{position:relative;padding-left:18px;margin:0 0 6px}
 .a-body li::before{content:"";position:absolute;left:3px;top:.8em;width:5px;height:5px;border-radius:50%;background:var(--deco)}
-.a-body b{font-weight:560;color:var(--ink)}
+.a-body b{font-weight:600;color:var(--ink)}
 .fs{border-radius:3px;transition:background-color .2s;-webkit-box-decoration-break:clone;box-decoration-break:clone;cursor:pointer}
 .fs.hover{background:var(--sunken)}
 .fs.active{background:var(--found-soft)}
@@ -219,7 +220,7 @@ textarea{caret-color:var(--brand)}
 .seg4{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--sunken);border-radius:9px;padding:3px}
 .seg4 button{height:28px;border-radius:7px;font-size:14px;color:var(--ink-2)}
 .seg4 button:hover:not(.on){color:var(--ink);background:rgba(255,255,255,.5)}
-.seg4 button.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 1px 2px rgba(33,28,90,.08)}
+.seg4 button.on{background:var(--surface);color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(33,28,90,.08)}
 .e-desc{margin-top:9px;font-size:13px;color:var(--muted);min-height:38px}
 .pop-t{display:flex;justify-content:space-between;align-items:baseline}
 .pop-t small{font-size:13px;font-weight:400;color:var(--faint)}
@@ -271,9 +272,9 @@ html.kbd .status:focus-visible{outline:2px solid var(--brand);outline-offset:4px
 .status .w{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:15px}
 .status .w i{font-size:17px}
 .status.s-found .w{color:var(--found)} .status.s-likely .w{color:var(--likely)} .status.s-nf .w{color:var(--nf)}
-.stmt{margin:0;font-size:17px;line-height:1.55;color:var(--ink)}
+.stmt{margin:0;font-size:17px;line-height:1.6;color:var(--ink)}
 .p-body .p-h{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:500}
-.why{margin:12px 0 0;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.why{margin:12px 0 0;font-size:15px;line-height:1.6;color:var(--ink-2)}
 .why b{font-weight:600;color:var(--ink);margin-right:4px}
 /* the document's own words sit on their own surface, apart from MAIA's */
 .ev{border-top:1px solid var(--line);padding:14px 0 0}
@@ -306,7 +307,7 @@ html.kbd .status:focus-visible{outline:2px solid var(--brand);outline-offset:4px
 .ext:hover{color:var(--ink)}
 .ext:hover .ul{border-bottom-color:currentColor}
 .ext:active{color:var(--ink);opacity:.8}
-.excerpt{border-left:2px solid var(--line-strong);padding:2px 0 2px 14px;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.excerpt{border-left:2px solid var(--line-strong);padding:2px 0 2px 14px;font-size:15px;line-height:1.6;color:var(--ink-2)}
 mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .s-likely mark{background:var(--likely-soft)}
 .x-wrap{overflow-x:auto}
@@ -338,13 +339,13 @@ mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-
 .d-st{padding-left:10px;font-size:13px;font-weight:500;color:var(--muted);cursor:default}
 .d-head2.s-found .d-st{color:var(--found)} .d-head2.s-likely .d-st{color:var(--likely)} .d-head2.s-nf .d-st{color:var(--nf)}
 .d-sp{flex:1}
-.d-stm{margin:2px 12px 0 44px;font-size:17px;line-height:1.5;color:var(--ink);hyphens:auto;-webkit-hyphens:auto}
+.d-stm{margin:2px 12px 0 44px;font-size:17px;line-height:1.6;color:var(--ink);hyphens:auto;-webkit-hyphens:auto}
 .d-stm:focus{outline:none}
 html.kbd .d-stm:focus-visible{outline:2px solid var(--brand);outline-offset:4px;border-radius:4px}
 .d-why-t{display:inline-flex;align-items:center;gap:4px;margin:8px 0 0 44px;height:26px;padding:0 6px;margin-left:38px;border-radius:7px;font-size:13px;font-weight:500;color:var(--ink-2)}
 .d-why-t:hover{background:var(--sunken)}
 .d-why-t i{font-size:12px}
-.d-why{margin:4px 12px 0 44px;font-size:15px;line-height:1.55;color:var(--ink-2);max-height:24vh;overflow-y:auto}
+.d-why{margin:4px 12px 0 44px;font-size:15px;line-height:1.6;color:var(--ink-2);max-height:24vh;overflow-y:auto}
 /* the matched value: drawn under the same number in the statement and in the passage, at the same moment */
 .m-match{background:linear-gradient(var(--found-bar),var(--found-bar)) no-repeat 0 100% / 0 2px;transition:background-size .5s cubic-bezier(.2,.8,.2,1);padding-bottom:1px}
 .s-likely .m-match{background-image:linear-gradient(var(--likely-bar),var(--likely-bar))}
@@ -395,7 +396,7 @@ html.kbd #dscroll:focus-visible{outline:2px solid var(--brand);outline-offset:-2
 .page tr.hl.on td{box-shadow:none}
 .p-done-t{padding-left:2px;font-size:14px;font-weight:600}
 .done{padding:10px 8px 20px;margin:0 -8px 4px;border-radius:9px}
-.done p{margin:0 0 6px;font-size:14px;color:var(--ink-2)}
+.done p{margin:0 0 6px;font-size:15px;line-height:1.6;color:var(--ink-2)}
 .done .done-h{font-size:17px;font-weight:600;color:var(--ink)}
 .done-a{display:flex;gap:6px}
 .d-title{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding-left:8px;font-size:14px}
@@ -403,7 +404,7 @@ html.kbd #dscroll:focus-visible{outline:2px solid var(--brand);outline-offset:-2
 .d-title b{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .d-title span{flex:none;font-size:13px;color:var(--faint)}
 .run-fail{padding:4px 0 0}
-.run-fail p{margin:0 0 6px;font-size:15px;line-height:1.55;color:var(--ink-2);max-width:60ch}
+.run-fail p{margin:0 0 6px;font-size:15px;line-height:1.6;color:var(--ink-2);max-width:60ch}
 .run-fail .rf-h{font-size:17px;font-weight:600;color:var(--ink)}
 .run-fail .btn{margin-top:8px}
 .c-note{max-width:668px;margin:8px auto 0;min-height:0;font-size:13px;color:var(--nf);display:none}
@@ -412,8 +413,8 @@ html.kbd #dscroll:focus-visible{outline:2px solid var(--brand);outline-offset:-2
 .ghost.empty i{color:var(--brand)}
 .d-empty-a{display:flex;gap:6px;justify-content:center}
 .d-empty{margin:80px auto;max-width:340px;text-align:center;color:var(--ink-2)}
-.d-empty h3{font-size:17px;margin:0 0 6px;color:var(--ink)}
-.d-empty p{margin:0 0 16px;font-size:14px;color:var(--muted)}
+.d-empty h3{font-size:17px;font-weight:600;line-height:1.25;margin:0 0 6px;color:var(--ink)}
+.d-empty p{margin:0 0 16px;font-size:15px;line-height:1.6;color:var(--muted)}
 
 /* ---------- Tooltip, toast ---------- */
 #tip{position:fixed;z-index:60;width:max-content;max-width:min(420px,calc(100vw - 16px));overflow-wrap:anywhere;background:var(--ink);color:#fff;border-radius:9px;padding:8px 10px;font-size:13px;line-height:1.45;pointer-events:none;opacity:0;transform:translateY(4px);transition:opacity .12s, transform .12s}
