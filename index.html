@@ -289,10 +289,12 @@ html.kbd .status:focus-visible{outline:2px solid var(--brand);outline-offset:4px
 .src-t{flex:1;min-width:0}
 .src b{display:block;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .src span{display:block;color:var(--faint)}
-.open-btn{flex:none;display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 9px;border-radius:7px;font-size:14px;font-weight:500;color:var(--brand-ink)}
-.open-btn:hover{color:var(--brand-press)}
-.open-btn:active{color:var(--brand-press);opacity:.8}
-.open-btn i{font-size:14px}
+.btn.sm{flex:none;height:28px;padding:0 10px;font-size:13px;color:var(--ink-2)}
+/* a link leaves MAIA for the file: no box, an external-link mark, underline on hover */
+.ext{flex:none;display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 4px;border-radius:5px;font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .15s}
+.ext i{font-size:14px}
+.ext:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.ext:active{color:var(--ink);opacity:.8}
 .excerpt{border-left:2px solid var(--line-strong);padding:2px 0 2px 14px;font-size:15px;line-height:1.55;color:var(--ink-2)}
 mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .s-likely mark{background:var(--likely-soft)}
@@ -360,8 +362,6 @@ html.kbd .d-stm:focus-visible{outline:2px solid var(--brand);outline-offset:4px;
 .d-file i{flex:none;font-size:16px;color:var(--muted)}
 .d-file b{min-width:0;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .d-file .pg{flex:none;font-variant-numeric:tabular-nums;color:var(--muted)}
-.btn.sm{height:28px;padding:0 10px;gap:5px;font-size:13px;color:var(--ink-2)}
-.btn.sm i{font-size:14px}
 .d-scroll{position:relative;flex:1;overflow-y:auto;background:var(--doc-bg);padding:20px 28px 40px}
 /* room below the last page, so any passage can be brought to the middle */
 #dscroll{padding-bottom:45vh}
@@ -1053,13 +1053,13 @@ function level1(f) {
     </div>`;
   if (n === 1) {
     const src = f.sources[0], d = DOCS[src.doc];
-    body += `<div class="ev s-${f.status}"><div class="src"><div class="src-t"><b data-tip="${d.name}">${d.name}</b><span>p. ${src.page}, ${src.sec}</span></div><button class="open-btn" data-act="docAt" data-i="0" data-tip="Show in document, at this passage">Open<i class="ph ph-arrow-up-right"></i></button></div>${excerptHTML(src)}</div>`;
+    body += `<div class="ev s-${f.status}"><div class="src"><div class="src-t"><b data-tip="${d.name}">${d.name}</b><span>p. ${src.page}, ${src.sec}</span></div><button class="btn secondary sm" data-act="docAt" data-i="0">Show in document</button></div>${excerptHTML(src)}</div>`;
   } else if (n > 1) {
     /* several sources: first one open, the rest one line each */
     body += `<div class="ev ev-list srcs s-${f.status}">${f.sources.map((src, i) => {
       const d = DOCS[src.doc], open = i === 0;
       return `<div class="srcb ${open ? 'open' : ''}">
-        <div class="srcb-h"><button class="srcb-t" data-act="srcToggle" aria-expanded="${!!open}"><b data-tip="${d.name}">${d.name}</b><span>p. ${src.page}</span><i class="ph ph-caret-down car"></i></button><button class="open-btn" data-act="docAt" data-i="${i}" data-tip="Show in document, at this passage">Open<i class="ph ph-arrow-up-right"></i></button></div>
+        <div class="srcb-h"><button class="srcb-t" data-act="srcToggle" aria-expanded="${!!open}"><b data-tip="${d.name}">${d.name}</b><span>p. ${src.page}</span><i class="ph ph-caret-down car"></i></button><button class="btn secondary sm" data-act="docAt" data-i="${i}">Show in document</button></div>
         <div class="srcb-b">${excerptHTML(src)}</div>
       </div>`;
     }).join('')}</div>`;
@@ -1158,7 +1158,7 @@ function level2(f) {
   if (S.docError) {
     return head + `<div class="d-scroll"><div class="d-empty" role="alert"><h3>This document can't be shown here</h3>
       <p>${d.name} did not load. The excerpt in the fact details is still valid.</p>
-      <div class="d-empty-a"><button class="btn secondary" data-act="docRetry"><i class="ph ph-arrow-clockwise"></i>Try again</button><button class="btn secondary" data-tip="Open original in a new tab"><i class="ph ph-arrow-square-out"></i>Open original</button></div></div></div>`;
+      <div class="d-empty-a"><button class="btn secondary" data-act="docRetry"><i class="ph ph-arrow-clockwise"></i>Try again</button><a class="ext" href="docs/${encodeURIComponent(d.name)}" target="_blank" rel="noopener">Open original<i class="ph ph-arrow-square-out" aria-hidden="true"></i></a></div></div></div>`;
   }
   /* ‹ › switch documents of this fact, the header arrows switch facts */
   const sw = n > 1 ? `<span class="d-sw">
@@ -1169,7 +1169,7 @@ function level2(f) {
   return head + `<div class="d-src">
       <span class="d-file">${docIcon(src.doc)}<b data-tip="${d.name}">${d.name}</b><span class="pg">p. ${src.page}</span></span>
       ${sw}
-      <button class="btn secondary sm" data-tip="Open the original file in a new tab">Open<i class="ph ph-arrow-square-out"></i></button>
+      <a class="ext" href="docs/${encodeURIComponent(d.name)}#page=${src.page}" target="_blank" rel="noopener">Open original<i class="ph ph-arrow-square-out" aria-hidden="true"></i></a>
     </div>
     <div class="d-scroll s-${f.status}" id="dscroll" lang="de" tabindex="0" role="region" aria-label="${d.name}, page ${src.page}">
       ${docHTML(src.doc)}
@@ -1268,6 +1268,8 @@ document.addEventListener('focusout', () => tip.classList.remove('on'));
 /* ================= Events ================= */
 document.addEventListener('click', e => {
   const t = e.target;
+  /* the prototype ships no files: a plain click stays put, modified clicks and copy-link still see the real href */
+  const ext = t.closest('a.ext'); if (ext) { if (e.button === 0 && !e.ctrlKey && !e.metaKey && !e.shiftKey) e.preventDefault(); return; }
   if (S.pop && !t.closest('#pop') && !t.closest('#effortBtn')) { S.pop = false; S.modelOpen = false; renderPop(); }
 
   const f = t.closest('[data-f]');
