@@ -708,7 +708,7 @@ const ANSWER = () => `
 
 const STATUS = {
   found:  { word: 'Found',     icon: 'ph ph-check-circle', line: 'Written in your documents.' },
-  likely: { word: 'Conclusion', icon: 'ph ph-circle-half', line: 'Not written in your documents. MAIA concluded it from them.' },
+  likely: { word: 'Conclusion', icon: 'ph ph-circle-half', line: 'Not stated word for word. MAIA worked it out from your documents.' },
   nf:     { word: 'Not found', icon: 'ph ph-warning-circle',     line: 'Nothing in the selected documents.' },
 };
 const CHIP_ICON = { found: '', likely: '', nf: '' };
@@ -1039,7 +1039,7 @@ function excerptHTML(src) { return src.table ? tableHTML(src.table) : `<div clas
 function gloss(f) {
   const n = f.sources.length;
   if (f.status === 'found') return n > 1 ? `in ${n} documents` : '';
-  if (f.status === 'likely') return 'not written in your documents';
+  if (f.status === 'likely') return 'worked out from your documents';
   return 'check it yourself before you use it';
 }
 /* long file names shorten in the middle and keep their ending: Requirement_Specificat…Hamburg.pdf */
