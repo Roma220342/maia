@@ -329,7 +329,8 @@ mark{background:var(--found-soft);color:var(--ink);padding:0;border-radius:2px;-
 .srcb-t .fn{flex:0 1 auto}
 .srcb-t > span{flex:none;font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted);font-weight:500}
 .srcb-h .car{font-size:12px;color:var(--muted);transition:transform .2s var(--ease)}
-.srcb.open .car{transform:rotate(180deg)}
+.car{transition:transform .2s var(--ease)}
+button[aria-expanded="true"] .car,details[open]>summary .car,.nav.more-open .more .car,.srcb.open .car{transform:rotate(180deg)}
 .srcb-b{display:none;padding:2px 0 16px}
 .srcb.open .srcb-b{display:block}
 .d-sw{flex:none;display:inline-flex;align-items:center;font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-2);white-space:nowrap}
@@ -782,12 +783,16 @@ function renderEffortBtn() {
   const e = EFFORT[S.effort], b = $('#effortBtn');
   b.classList.toggle('off', !S.verify);
   b.dataset.tip = S.verify ? `Verify answers is on. ${e.label} effort, usually ${e.time}.` : `Verify answers is off. ${e.label} effort, usually ${e.time}.`;
-  b.innerHTML = `<i class="${S.verify ? 'ph ph-shield-check' : 'ph ph-shield-slash'} sh"></i>${e.label}<i class="ph ph-caret-down car"></i>`;
+  if (!b.querySelector('.car')) b.innerHTML = '<i class="sh"></i><span class="el"></span><i class="ph ph-caret-down car"></i>';
+  b.querySelector('.sh').className = (S.verify ? 'ph ph-shield-check' : 'ph ph-shield-slash') + ' sh';
+  b.querySelector('.el').textContent = e.label;
+  b.setAttribute('aria-expanded', String(S.pop));
 }
 function renderPop() {
   const e = EFFORT[S.effort], p = $('#pop');
   p.classList.toggle('open', S.pop);
   p.inert = !S.pop;
+  $('#effortBtn').setAttribute('aria-expanded', String(S.pop));
   if (S.pop) requestAnimationFrame(() => {
     const c = $('#composer').getBoundingClientRect(), above = c.top - 16, below = innerHeight - c.bottom - 16;
     const down = p.scrollHeight > above && below > above;
@@ -805,7 +810,7 @@ function renderPop() {
       <div class="v-sub">Checks every fact against your documents.</div>
     </div>
     <div class="pop-sec">
-      <div class="v-row"><span class="lbl2">Model</span><button class="m-btn" data-act="models">${S.model}<i class="ph ph-caret-${S.modelOpen ? 'up' : 'down'}"></i></button></div>
+      <div class="v-row"><span class="lbl2">Model</span><button class="m-btn" data-act="models" aria-expanded="${S.modelOpen}">${S.model}<i class="ph ph-caret-down car"></i></button></div>
       ${S.modelOpen ? `<div class="m-list">
         <button class="m-item" data-model="Automatic"><span>Automatic<small>MAIA picks the model for each question.</small></span>${S.model === 'Automatic' ? '<i class="ph ph-check"></i>' : ''}</button>
         ${MODELS.map(g => `<div class="g">${g.name}<i class="ph ph-info" data-tip="${g.tip}"></i></div>${g.items.map(m => `<button class="m-item" data-model="${m}"><span>${m}</span>${S.model === m ? '<i class="ph ph-check"></i>' : ''}</button>`).join('')}`).join('')}
@@ -849,11 +854,11 @@ function activityLive() {
   return `<div id="act">
     <div class="run-head"><span class="pulse" aria-hidden="true"></span><span class="rh-now" aria-live="polite">${STEPS[r.step].now}</span><span class="t">${fmt(r.elapsed)}</span><span class="eta">usually ${e.time}</span></div>
     ${hint}
-    <details class="run-steps" ${S.actOpen ? 'open' : ''}><summary class="act-toggle">Show steps<i class="ph ph-caret-down"></i></summary><div class="rs-list" data-step="${r.step}">${stepsHTML(r.step, true)}</div></details>
+    <details class="run-steps" ${S.actOpen ? 'open' : ''}><summary class="act-toggle">Show steps<i class="ph ph-caret-down car"></i></summary><div class="rs-list" data-step="${r.step}">${stepsHTML(r.step, true)}</div></details>
   </div>`;
 }
 function metaRow() {
-  const act = `<button class="act-toggle" data-act="activity" aria-expanded="${S.actOpen}">How MAIA worked · 71 s<i class="ph ph-caret-${S.actOpen ? 'up' : 'down'}"></i></button>`;
+  const act = `<button class="act-toggle" data-act="activity" aria-expanded="${S.actOpen}">How MAIA worked · 71 s<i class="ph ph-caret-down car"></i></button>`;
   let v;
   if (S.scenario === 'off') {
     v = `<button class="vfound" data-act="turnOn" data-tip="This answer was not checked against your documents. MAIA will check it now.">Not verified. Check this answer</button>`;
@@ -1154,7 +1159,7 @@ function level2(f) {
         <button class="icon-btn" data-act="close" data-tip="Close (Esc)" aria-label="Close"><i class="ph ph-x"></i></button>
       </div>
       <p class="stm d-stm" tabindex="-1" lang="de">${markTokens(plain(f.id), toks)}</p>
-      ${f.why ? `<button class="d-why-t" data-act="dfact" aria-expanded="${dOpen(f)}">Reasoning<i class="ph ph-caret-${dOpen(f) ? 'up' : 'down'}"></i></button>${dOpen(f) ? `<p class="d-why">${f.why}</p>` : ''}` : ''}
+      ${f.why ? `<button class="d-why-t" data-act="dfact" aria-expanded="${dOpen(f)}">Reasoning<i class="ph ph-caret-down car"></i></button>${dOpen(f) ? `<p class="d-why">${f.why}</p>` : ''}` : ''}
     </div>`;
   if (!f.sources.length) {
     return head + `<div class="d-scroll"><div class="d-empty"><h3>No passage for this fact</h3><p>Nothing in the 3 selected documents matches it. Check it yourself before you use it.</p></div></div>`;
